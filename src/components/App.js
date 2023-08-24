@@ -190,23 +190,25 @@ function App() {
     // Handle special case of Percent or Sqrt
     switch(buttonData.value){
       case "Percent":
-        if(operandA){
+        if(operandA && !operator){
+          // Only operates if there is a single operand in equation
           setOperandA(`${operandA/100}`)
           setDisplayString(`${operandA/100}`)
           setMathString(`${operandA/100}`)
           setResult(`${operandA/100}`)
           return;
         }
-        break;
-      case "Square Root":
-        if(operandA){
+        return;
+        case "Square Root":
+          if(operandA && !operator){
+          // Only operates if there is a single operand in equation
           setOperandA(`${Math.sqrt(operandA)}`)
           setDisplayString(`${Math.sqrt(operandA)}`)
           setMathString(`${Math.sqrt(operandA)}`)
           setResult(`${Math.sqrt(operandA)}`)
           return;
         }
-        break;
+        return;
       default:
         break;
     }
