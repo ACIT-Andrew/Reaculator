@@ -90,13 +90,14 @@ function App() {
               // A complete equation was entered. Do nothing
               return;
             } else {
-              // OperandA and Operator have been entered. Output saved to OperandB
+              // OperandA and Operator have been entered. Output displayed and saved to OperandB
               setDisplayString(`${displayString} ${memory}`);
               setMathString(`${displayString}${memory}`);
               setOperandB(memory);
               return;
             }
           } else {
+            // Display and output to OperandA
             setDisplayString(memory);
             setMathString(memory);
             setOperandA(memory);
