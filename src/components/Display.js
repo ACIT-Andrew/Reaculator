@@ -2,7 +2,7 @@ import React from 'react'
 
 function Display({displayString}) {
   return (
-    <div>{displayString}</div>
+    <div className='display'>{displayString}</div>
   )
 }
 
