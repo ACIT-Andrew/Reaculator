@@ -222,6 +222,22 @@ function App() {
     }
   }
 
+  function processSign() {
+    if (operandA) {
+      if (operandB) {
+        setOperandB(`${operandB * -1}`);
+        setDisplayString(`${displayString.slice(0, (operandB.length+1)*-1)} ${operandB*-1}`);
+        setMathString(`${mathString.slice(0, (operandB.length)*-1)} ${operandB*-1}`);
+        return;
+      }
+      if (!operator) {
+        setOperandA(`${operandA * -1}`);
+        setDisplayString(`${operandA * -1}`);
+        setMathString(`${operandA * -1}`);
+      }
+    }
+  }
+
   function handleButtonClick(buttonData) {
     console.log(buttonData);
 
@@ -243,6 +259,9 @@ function App() {
         break;
       case "operator":
         processOperator(buttonData);
+        break;
+      case "sign":
+        processSign();
         break;
       default:
         console.log(buttonData.value);
