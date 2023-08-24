@@ -39,15 +39,86 @@ function App() {
     }
   }
 
+  function processDecimal(value) {
+    if (operandA) {
+      if (operandB && !operandB.includes(value)) {
+        setOperandB(`${operandB}${value}`);
+        setDisplayString(`${displayString}${value}`);
+        setMathString(`${displayString}${value}`);
+        return;
+      }
+      if (!operandA.includes(value)) {
+        setOperandA(`${operandA}${value}`);
+        setDisplayString(`${displayString}${value}`);
+        setMathString(`${displayString}${value}`);
+        return;
+      }
+    }
+  }
+
   function processEnter() {
     // Pressing enter only calculates when equation is complete
     if (operandA && operator && operandB) {
-      let calculation = calculate(mathString).toString()
+      let calculation = calculate(mathString).toString();
       setResult(calculation);
       setDisplayString(calculation);
       setMathString(calculation);
+      // Reset equation for next calculation
+      setOperandA(calculation);
+      setOperator("");
+      setOperandB("");
     }
     console.log(result);
+  }
+
+  function processMemory(action) {
+    switch (action) {
+      case "Memory Save":
+        if (operandA) {
+          if (operandB) {
+            // Both operand A and B are entered, save the result of equation as string
+            setMemory(calculate(mathString).toString());
+          } else {
+            // OperandB hasn't been entered yet, just save OperandA
+            setMemory(operandA);
+          }
+        }
+        break;
+      case "Memory Recall":
+        if (memory) {
+          // Do something only if there is a number stored
+          if (operandA && operator) {
+            if (operandB) {
+              // A complete equation was entered. Do nothing
+              return;
+            } else {
+              // OperandA and Operator have been entered. Output saved to OperandB
+              setDisplayString(`${displayString} ${memory}`);
+              setMathString(`${displayString}${memory}`);
+              setOperandB(memory);
+              return;
+            }
+          } else {
+            setDisplayString(memory);
+            setMathString(memory);
+            setOperandA(memory);
+          }
+        }
+        break;
+      case "Memory Clear":
+        setMemory("");
+        break;
+      case "Memory Addition":
+        if (operandA) {
+          setMemory(calculate(`${memory}+${operandA}`).toString());
+        }
+        break;
+      case "Memory Subtract":
+        if (operandA) {
+          setMemory(calculate(`${memory}-${operandA}`).toString());
+        }
+        break;
+    }
   }
 
   function processNumberClick(number) {
@@ -72,12 +143,20 @@ function App() {
         }
       }
       if (!operator) {
-        // OperandA is still being entered
+        // Operator has not been entered yet
+        if (operandA === result) {
+          // A calculation result is displayed and returned as OperandA, entered digits will overwrite this
+          setOperandA(number);
+          setDisplayString(number);
+          setMathString(number);
+          setResult("");
+          return;
+        }
+        // OperandA is still being entered, append new digit
         setOperandA(`${operandA}${number}`);
         setDisplayString(`${displayString}${number}`);
         setMathString(`${mathString}${number}`);
-      }
-      if (operator) {
+      } else {
         // User entered operator already
         if (!operandB) {
           // OperandB not assigned yet. User is entering it
@@ -92,11 +171,11 @@ function App() {
               // OperandB is 0 and user pressed 0. Just set to "0" and do nothing
               setOperandB("0");
               return;
-            }else{
+            } else {
               // User entered digit other than 0. Change to new digit.
               setOperandB(number);
-              setDisplayString(`${operandA} ${operator} ${number}`)
-              setMathString(`${operandA}${operator}${number}`)
+              setDisplayString(`${operandA} ${operator} ${number}`);
+              setMathString(`${operandA}${operator}${number}`);
             }
           }
           setOperandB(`${operandB}${number}`);
@@ -113,11 +192,13 @@ function App() {
       processEnter();
       clearEquation();
       // Save calculation
-      let calculation = calculate(mathString).toString()
-      setOperandA(calculation)
-      setOperator(buttonData.value)
-      setDisplayString(`${calculation} ${buttonData.text}`)
-      setMathString(`${calculation}${buttonData.value}`)
+      let calculation = calculate(mathString).toString();
+      setOperandA(calculation);
+      setResult(calculation);
+      // Chain on the next operand
+      setOperator(buttonData.value);
+      setDisplayString(`${calculation} ${buttonData.text}`);
+      setMathString(`${calculation}${buttonData.value}`);
       return;
     }
 
@@ -139,7 +220,6 @@ function App() {
         setMathString(`${operandA}${buttonData.value}`);
       }
     }
-
   }
 
   function handleButtonClick(buttonData) {
@@ -149,11 +229,14 @@ function App() {
       case "clear":
         processClear(buttonData);
         break;
-      // case "decimal":
-      //   processDecimal();
-      //   break;
+      case "decimal":
+        processDecimal(buttonData.value);
+        break;
       case "enter":
         processEnter();
+        break;
+      case "memory":
+        processMemory(buttonData.value);
         break;
       case "number":
         processNumberClick(buttonData.value);
