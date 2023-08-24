@@ -187,6 +187,28 @@ function App() {
   }
 
   function processOperator(buttonData) {
+    // Handle special case of Percent or Sqrt
+    switch(buttonData.value){
+      case "Percent":
+        if(operandA){
+          setOperandA(`${operandA/100}`)
+          setDisplayString(`${operandA/100}`)
+          setMathString(`${operandA/100}`)
+          setResult(`${operandA/100}`)
+          return;
+        }
+        break;
+      case "Square Root":
+        if(operandA){
+          setOperandA(`${Math.sqrt(operandA)}`)
+          setDisplayString(`${Math.sqrt(operandA)}`)
+          setMathString(`${Math.sqrt(operandA)}`)
+          setResult(`${Math.sqrt(operandA)}`)
+          return;
+        }
+        break;
+    }
+
     if (operandA && operator && operandB) {
       // A complete equation was entered. Calculate.
       processEnter();
@@ -226,8 +248,14 @@ function App() {
     if (operandA) {
       if (operandB) {
         setOperandB(`${operandB * -1}`);
-        setDisplayString(`${displayString.slice(0, (operandB.length+1)*-1)} ${operandB*-1}`);
-        setMathString(`${mathString.slice(0, (operandB.length)*-1)} ${operandB*-1}`);
+        setDisplayString(
+          `${displayString.slice(0, (operandB.length + 1) * -1)} ${
+            operandB * -1
+          }`
+        );
+        setMathString(
+          `${mathString.slice(0, operandB.length * -1)} ${operandB * -1}`
+        );
         return;
       }
       if (!operator) {
