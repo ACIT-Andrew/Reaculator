@@ -14,8 +14,6 @@ function App() {
   const [result, setResult] = useState("");
   const [memory, setMemory] = useState("");
 
-  let equation = `${operandA}${operator}${operandB}`;
-
   // Evaluate Equation
   function calculate(fn) {
     return new Function("return " + fn)();
@@ -118,6 +116,8 @@ function App() {
           setMemory(calculate(`${memory}-${operandA}`).toString());
         }
         break;
+      default:
+        break;
     }
   }
 
@@ -206,6 +206,8 @@ function App() {
           setResult(`${Math.sqrt(operandA)}`)
           return;
         }
+        break;
+      default:
         break;
     }
 
