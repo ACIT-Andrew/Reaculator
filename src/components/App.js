@@ -128,11 +128,11 @@ function App() {
     // Normalize: Convert number to a string value
     number = number.toString();
     if (displayString === "0") {
-      if(operandA && operator){
+      if (operandA && operator) {
         // User pressed 'C' and display is cleared, this handles the next entry
-        setDisplayString(number)
-        setMathString(`${mathString}${number}`)
-        setOperandB(number)
+        setDisplayString(number);
+        setMathString(`${mathString}${number}`);
+        setOperandB(number);
         return;
       }
       // Display is 0. Start typing number
@@ -269,7 +269,9 @@ function App() {
           }`
         );
         setMathString(
-          `${mathString.slice(0, (operandA.length + operator.length))} ${operandB * -1}`
+          `${mathString.slice(0, operandA.length + operator.length)} ${
+            operandB * -1
+          }`
         );
         return;
       }
@@ -321,7 +323,7 @@ function App() {
             return (
               <Button
                 key={index}
-                className={buttonData.type}
+                className={buttonData.type + " " + buttonData.className}
                 buttonData={buttonData}
                 handleButtonClick={handleButtonClick}
               />

@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
-function Display({displayString}) {
+function Display({ displayString }) {
   return (
-    <div className='display'>{displayString}</div>
-  )
+    <div className="display">
+      <div className="equation">{displayString}</div>
+    </div>
+  );
 }
 
-export default Display
+export default Display;
