@@ -138,7 +138,7 @@ function App() {
             // User pressed another number, update to that number instead
             setOperandB(number)
             setDisplayString(number)
-            setMathString(`${operator}${operator}${number}`)
+            setMathString(`${operandA}${operator}${number}`)
             return;
           }
         }
