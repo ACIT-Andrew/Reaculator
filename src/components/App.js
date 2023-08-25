@@ -30,6 +30,8 @@ function App() {
   function processClear(buttonData) {
     if (buttonData.className === "c") {
       setDisplayString("0");
+      setMathString(`${operandA}${operator}`);
+      setOperandB("");
     } else if (buttonData.className === "ac") {
       setDisplayString("0");
       setMathString("0");
@@ -42,13 +44,13 @@ function App() {
       if (operandB && !operandB.includes(value)) {
         setOperandB(`${operandB}${value}`);
         setDisplayString(`${displayString}${value}`);
-        setMathString(`${displayString}${value}`);
+        setMathString(`${mathString}${value}`);
         return;
       }
       if (!operandA.includes(value)) {
         setOperandA(`${operandA}${value}`);
         setDisplayString(`${displayString}${value}`);
-        setMathString(`${displayString}${value}`);
+        setMathString(`${mathString}${value}`);
         return;
       }
     }
@@ -126,6 +128,13 @@ function App() {
     // Normalize: Convert number to a string value
     number = number.toString();
     if (displayString === "0") {
+      if(operandA && operator){
+        // User pressed 'C' and display is cleared, this handles the next entry
+        setDisplayString(number)
+        setMathString(`${mathString}${number}`)
+        setOperandB(number)
+        return;
+      }
       // Display is 0. Start typing number
       setOperandA(number);
       setDisplayString(number);
@@ -189,24 +198,24 @@ function App() {
 
   function processOperator(buttonData) {
     // Handle special case of Percent or Sqrt
-    switch(buttonData.value){
+    switch (buttonData.value) {
       case "Percent":
-        if(operandA && !operator){
+        if (operandA && !operator) {
           // Only operates if there is a single operand in equation
-          setOperandA(`${operandA/100}`)
-          setDisplayString(`${operandA/100}`)
-          setMathString(`${operandA/100}`)
-          setResult(`${operandA/100}`)
+          setOperandA(`${operandA / 100}`);
+          setDisplayString(`${operandA / 100}`);
+          setMathString(`${operandA / 100}`);
+          setResult(`${operandA / 100}`);
           return;
         }
         return;
-        case "Square Root":
-          if(operandA && !operator){
+      case "Square Root":
+        if (operandA && !operator) {
           // Only operates if there is a single operand in equation
-          setOperandA(`${Math.sqrt(operandA)}`)
-          setDisplayString(`${Math.sqrt(operandA)}`)
-          setMathString(`${Math.sqrt(operandA)}`)
-          setResult(`${Math.sqrt(operandA)}`)
+          setOperandA(`${Math.sqrt(operandA)}`);
+          setDisplayString(`${Math.sqrt(operandA)}`);
+          setMathString(`${Math.sqrt(operandA)}`);
+          setResult(`${Math.sqrt(operandA)}`);
           return;
         }
         return;
@@ -252,6 +261,7 @@ function App() {
   function processSign() {
     if (operandA) {
       if (operandB) {
+        // User is changing operandB, update strings and operandB
         setOperandB(`${operandB * -1}`);
         setDisplayString(
           `${displayString.slice(0, (operandB.length + 1) * -1)} ${
@@ -259,11 +269,12 @@ function App() {
           }`
         );
         setMathString(
-          `${mathString.slice(0, operandB.length * -1)} ${operandB * -1}`
+          `${mathString.slice(0, (operandA.length + operator.length))} ${operandB * -1}`
         );
         return;
       }
       if (!operator) {
+        // User is changing operandA
         setOperandA(`${operandA * -1}`);
         setDisplayString(`${operandA * -1}`);
         setMathString(`${operandA * -1}`);
@@ -272,8 +283,7 @@ function App() {
   }
 
   function handleButtonClick(buttonData) {
-    console.log(buttonData);
-
+    // console.log(buttonData);
     switch (buttonData.type) {
       case "clear":
         processClear(buttonData);
