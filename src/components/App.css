@@ -11,7 +11,7 @@ main {
 }
 .display {
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 2.5rem;
   border: 5px solid lightseagreen;
   border-radius: 8px;
   background-color: #27232e;
@@ -72,6 +72,9 @@ main {
   grid-column-end: -2;
 }
 
+.number,.decimal,.sign{
+  background-color: #e0e4eb;
+}
 .number.one,
 .number.two,
 .number.three {
