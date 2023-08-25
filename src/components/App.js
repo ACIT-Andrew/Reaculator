@@ -129,6 +129,19 @@ function App() {
     number = number.toString();
     if (displayString === "0") {
       if(operandA && operator){
+        if(operandB === "0"){
+          // User pressed 'C' and then pressed 0
+          if(number === "0"){
+            // If user presses 0 again don't do anything
+            return;
+          }else{
+            // User pressed another number, update to that number instead
+            setOperandB(number)
+            setDisplayString(number)
+            setMathString(`${operator}${operator}${number}`)
+            return;
+          }
+        }
         // User pressed 'C' and display is cleared, this handles the next entry
         setDisplayString(number)
         setMathString(`${mathString}${number}`)
