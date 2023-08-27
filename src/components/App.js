@@ -128,24 +128,24 @@ function App() {
     // Normalize: Convert number to a string value
     number = number.toString();
     if (displayString === "0") {
-      if(operandA && operator){
-        if(operandB === "0"){
+      if (operandA && operator) {
+        if (operandB === "0") {
           // User pressed 'C' and then pressed 0
-          if(number === "0"){
+          if (number === "0") {
             // If user presses 0 again don't do anything
             return;
-          }else{
+          } else {
             // User pressed another number, update to that number instead
-            setOperandB(number)
-            setDisplayString(number)
-            setMathString(`${operandA}${operator}${number}`)
+            setOperandB(number);
+            setDisplayString(`${operandA} ${operator} ${number}`);
+            setMathString(`${operandA}${operator}${number}`);
             return;
           }
         }
         // User pressed 'C' and display is cleared, this handles the next entry
-        setDisplayString(number)
-        setMathString(`${mathString}${number}`)
-        setOperandB(number)
+        setDisplayString(`${operandA} ${operator} ${number}`);
+        setMathString(`${mathString}${number}`);
+        setOperandB(number);
         return;
       }
       // Display is 0. Start typing number
@@ -199,6 +199,7 @@ function App() {
               setOperandB(number);
               setDisplayString(`${operandA} ${operator} ${number}`);
               setMathString(`${operandA}${operator}${number}`);
+              return;
             }
           }
           setOperandB(`${operandB}${number}`);
