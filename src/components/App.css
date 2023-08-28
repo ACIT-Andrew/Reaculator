@@ -33,6 +33,16 @@ main {
   vertical-align: middle;
   text-align: right;
 }
+.memoryString{
+  padding: 0 10px 0;
+  font-size: 1rem;
+  color: yellow;
+  margin: 0;
+  height: fit-content;
+  line-height: 30px;
+  vertical-align: middle;
+  text-align: right;
+}
 
 /* BUTTON STYLES */
 .buttons {

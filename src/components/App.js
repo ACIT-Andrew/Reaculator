@@ -331,7 +331,7 @@ function App() {
     <div className="App">
       <header></header>
       <main>
-        <Display displayString={displayString} />
+        <Display memoryString={memory} displayString={displayString} />
         <div className="buttons">
           {calculatorButtons.map((buttonData, index) => {
             return (
