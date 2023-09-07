@@ -94,7 +94,7 @@ function App() {
             } else {
               // OperandA and Operator have been entered. Output displayed and saved to OperandB
               setDisplayString(`${displayString} ${memory}`);
-              setMathString(`${displayString}${memory}`);
+              setMathString(`${mathString} ${memory}`);
               setOperandB(memory);
               return;
             }
